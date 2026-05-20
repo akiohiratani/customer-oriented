@@ -142,23 +142,201 @@ URLが読めない場合でも、推測で補完してはいけません。
 
 ---
 
-## 推奨フォルダ構成
+## チャット／案件ごとの作業フォルダ作成ルール
 
-画像を扱う場合は、次のフォルダを使ってください。
+出力ファイルは、毎回同じ場所に直接作成してはいけません。
+
+新しい案件、または新しい学習チャットを開始するたびに、必ず専用フォルダを作成してください。
+
+作業フォルダは、次の形式で作成してください。
 
 ```text
-assets/
+sessions/YYYYMMDD_HHMM_案件名/
 ```
 
-画像ファイル名は、できるだけ次のようにしてください。
+案件名が長い場合は、短く分かりやすい名前にしてください。
+
+例：
 
 ```text
-assets/product_01.jpg
-assets/product_02.jpg
-assets/scene_01.jpg
-assets/scene_02.jpg
-assets/reference_01.png
-assets/preference_01.png
+sessions/20260520_2130_rollite_bag/
+sessions/20260521_0900_meta_banner/
+sessions/20260521_1430_thumbnail_competition/
+```
+
+時刻が分からない場合は、次の形式でも構いません。
+
+```text
+sessions/YYYYMMDD_案件名/
+```
+
+案件名がまだ分からない場合は、仮フォルダ名を使ってください。
+
+```text
+sessions/YYYYMMDD_HHMM_new_case/
+```
+
+以後、この作業フォルダを `SESSION_DIR` と呼びます。
+
+例：
+
+```text
+SESSION_DIR=sessions/20260520_2130_rollite_bag/
+```
+
+---
+
+## 作業フォルダ内の構成
+
+各案件フォルダの中には、以下の構成でファイルを作成してください。
+
+```text
+sessions/YYYYMMDD_HHMM_案件名/
+  README.md
+  assets/
+  outputs/
+    01_input_summary.md
+    02_step1_facts.md
+    03_step2_customer_goal.md
+    04_step3_target_psychology.md
+    05_step3_5_persona_dialogue_draft_selection.md
+    06_step4_appeal_axis.md
+    07_step5_design_translation.md
+    08_canva_design_spec.md
+    09_gpt_canva_prompt.md
+    10_design_review.md
+    11_submission_message.md
+    12_learning_log.md
+```
+
+画像ファイルは、案件ごとの `assets/` に保存してください。
+
+例：
+
+```text
+sessions/20260520_2130_rollite_bag/assets/product_01.jpg
+sessions/20260520_2130_rollite_bag/assets/scene_01.jpg
+sessions/20260520_2130_rollite_bag/assets/reference_01.png
+sessions/20260520_2130_rollite_bag/assets/preference_01.png
+```
+
+Markdownの出力先は、必ず案件ごとの `outputs/` にしてください。
+
+例：
+
+```text
+sessions/20260520_2130_rollite_bag/outputs/01_input_summary.md
+sessions/20260520_2130_rollite_bag/outputs/02_step1_facts.md
+```
+
+---
+
+## README.md の作成ルール
+
+各案件フォルダには、必ず `README.md` を作成してください。
+
+`README.md` には、以下を書いてください。
+
+```markdown
+# 顧客志向学習ログ
+
+## 案件名
+
+未設定
+
+## 作成日
+
+YYYY-MM-DD
+
+## 作業フォルダ
+
+sessions/YYYYMMDD_HHMM_案件名/
+
+## 学習目的
+
+クラウドワークスの実案件を教材にして、案件文・画像・制約条件から顧客志向を学ぶ。
+
+## 進行状況
+
+- [ ] 案件情報入力
+- [ ] ステップ1：案件文から事実を抜き出す
+- [ ] ステップ2：顧客の目的を考える
+- [ ] ステップ3：ターゲットの状況と心理を考える
+- [ ] ステップ3.5：AIペルソナ対話で草案比較
+- [ ] ステップ4：訴求軸を決める
+- [ ] ステップ5：デザイン要素へ翻訳する
+- [ ] ステップ6：Canva制作指示書を作る
+- [ ] ステップ7：制作物をレビューする
+- [ ] ステップ8：提出文と振り返りを作る
+```
+
+各ステップが完了したら、README.md のチェックボックスを更新してください。
+
+---
+
+## 出力ファイルの上書き防止ルール
+
+既存の案件フォルダ内のファイルを、別案件の内容で上書きしてはいけません。
+
+新しい案件を開始する場合は、必ず新しい `sessions/YYYYMMDD_HHMM_案件名/` フォルダを作成してください。
+
+同じ案件で続きから作業する場合のみ、既存フォルダ内のファイルを更新してください。
+
+どのフォルダを使うべきか不明な場合は、推測せず、ユーザーに確認してください。
+
+---
+
+## 出力ファイル指定ルール
+
+以後、出力ファイルを書くときは、単に次のように書いてはいけません。
+
+```text
+01_input_summary.md
+```
+
+必ず、案件フォルダ配下のパスで書いてください。
+
+```text
+SESSION_DIR/outputs/01_input_summary.md
+```
+
+例：
+
+```text
+sessions/20260520_2130_rollite_bag/outputs/01_input_summary.md
+```
+
+---
+
+## assets 参照ルール
+
+画像ファイルを参照するときも、案件フォルダ配下の `assets/` を使ってください。
+
+例：
+
+```text
+sessions/20260520_2130_rollite_bag/assets/product_01.jpg
+sessions/20260520_2130_rollite_bag/assets/scene_01.jpg
+```
+
+既存の `assets/` に画像がある場合は、可能であれば案件フォルダ内の `assets/` にコピーしてください。
+
+コピーできない場合は、元のファイルパスを明記してください。
+
+---
+
+## 最初に必ず表示する作業フォルダ
+
+新しい案件を開始したら、最初に現在の作業フォルダを明示してください。
+
+出力例：
+
+```text
+今回の作業フォルダ：
+sessions/20260520_2130_rollite_bag/
+
+以後、この案件の出力は以下に保存します。
+sessions/20260520_2130_rollite_bag/outputs/
 ```
 
 ---
@@ -167,7 +345,36 @@ assets/preference_01.png
 
 ## 1. 「顧客志向学習開始」
 
-ユーザーが「顧客志向学習開始」と入力したら、最初に案件情報と添付画像の入力を求めてください。
+ユーザーが「顧客志向学習開始」と入力したら、最初に専用の作業フォルダを作成してください。
+
+案件名がまだ分からない場合は、仮フォルダ名を使ってください。
+
+```text
+sessions/YYYYMMDD_HHMM_new_case/
+```
+
+作業フォルダを作成したら、次の構成を作成してください。
+
+```text
+SESSION_DIR/
+  README.md
+  assets/
+  outputs/
+```
+
+そのうえで、現在の作業フォルダを明示してください。
+
+出力例：
+
+```text
+今回の作業フォルダ：
+sessions/YYYYMMDD_HHMM_new_case/
+
+以後、この案件の出力は以下に保存します。
+sessions/YYYYMMDD_HHMM_new_case/outputs/
+```
+
+その後、案件情報と添付画像の入力を求めてください。
 
 この時点では分析を始めないでください。
 
@@ -206,10 +413,10 @@ assets/preference_01.png
 
 画像ファイル名：
 例：
-- assets/product_01.jpg：商品単体画像
-- assets/scene_01.jpg：利用シーン画像
-- assets/reference_01.png：参考バナー
-- assets/preference_01.png：希望イメージのスクショ
+- SESSION_DIR/assets/product_01.jpg：商品単体画像
+- SESSION_DIR/assets/scene_01.jpg：利用シーン画像
+- SESSION_DIR/assets/reference_01.png：参考バナー
+- SESSION_DIR/assets/preference_01.png：希望イメージのスクショ
 
 画像使用ルール：
 例：
@@ -281,7 +488,7 @@ CTA文言：
 出力ファイル：
 
 ```text
-01_input_summary.md
+SESSION_DIR/outputs/01_input_summary.md
 ```
 
 出力形式：
@@ -318,13 +525,26 @@ CTA文言：
 - 競合との差別化：
 - その他：
 
-## 4. 次の学習ステップ
+## 4. 作業フォルダ
+
+今回の作業フォルダ：
+SESSION_DIR/
+
+出力先：
+SESSION_DIR/outputs/
+
+画像保存先：
+SESSION_DIR/assets/
+
+## 5. 次の学習ステップ
 
 次は「ステップ1：案件文から事実を抜き出す」に進みます。
 
 最後に、ユーザーに次のように確認してください。
 
 「この整理に抜け漏れがなければ、『ステップ1へ』と入力してください。修正したい点があれば先に教えてください。」
+
+README.md の進行状況も更新してください。
 
 ---
 
@@ -344,7 +564,7 @@ CTA文言：
 出力ファイル：
 
 ```text
-02_step1_facts.md
+SESSION_DIR/outputs/02_step1_facts.md
 ```
 
 出力形式：
@@ -382,6 +602,8 @@ CTA文言：
 
 ユーザーの回答を待ってください。
 
+README.md の進行状況も更新してください。
+
 ---
 
 ## ステップ2：「顧客の目的を考える」
@@ -394,7 +616,7 @@ CTA文言：
 出力ファイル：
 
 ```text
-03_step2_customer_goal.md
+SESSION_DIR/outputs/03_step2_customer_goal.md
 ```
 
 出力形式：
@@ -428,6 +650,8 @@ CTA文言：
 
 ユーザーの回答を待ってください。
 
+README.md の進行状況も更新してください。
+
 ---
 
 ## ステップ3〜6ノンストップ実行ルール
@@ -449,13 +673,15 @@ CTA文言：
 出力ファイル：
 
 ```text
-04_step3_target_psychology.md
-05_step3_5_persona_dialogue_draft_selection.md
-06_step4_appeal_axis.md
-07_step5_design_translation.md
-08_canva_design_spec.md
-09_gpt_canva_prompt.md
+SESSION_DIR/outputs/04_step3_target_psychology.md
+SESSION_DIR/outputs/05_step3_5_persona_dialogue_draft_selection.md
+SESSION_DIR/outputs/06_step4_appeal_axis.md
+SESSION_DIR/outputs/07_step5_design_translation.md
+SESSION_DIR/outputs/08_canva_design_spec.md
+SESSION_DIR/outputs/09_gpt_canva_prompt.md
 ```
+
+README.md の進行状況も更新してください。
 
 ---
 
@@ -467,7 +693,7 @@ CTA文言：
 出力ファイル：
 
 ```text
-04_step3_target_psychology.md
+SESSION_DIR/outputs/04_step3_target_psychology.md
 ```
 
 出力形式：
@@ -573,7 +799,7 @@ CTA文言：
 出力ファイル：
 
 ```text
-05_step3_5_persona_dialogue_draft_selection.md
+SESSION_DIR/outputs/05_step3_5_persona_dialogue_draft_selection.md
 ```
 
 出力形式：
@@ -874,7 +1100,7 @@ After：
 出力ファイル：
 
 ```text
-06_step4_appeal_axis.md
+SESSION_DIR/outputs/06_step4_appeal_axis.md
 ```
 
 出力形式：
@@ -957,7 +1183,7 @@ AIペルソナのニーズとの整合性：
 出力ファイル：
 
 ```text
-07_step5_design_translation.md
+SESSION_DIR/outputs/07_step5_design_translation.md
 ```
 
 出力形式：
@@ -1082,8 +1308,8 @@ AIペルソナのニーズとの整合性：
 出力ファイル：
 
 ```text
-08_canva_design_spec.md
-09_gpt_canva_prompt.md
+SESSION_DIR/outputs/08_canva_design_spec.md
+SESSION_DIR/outputs/09_gpt_canva_prompt.md
 ```
 
 出力形式：
@@ -1398,7 +1624,7 @@ CTA：
 出力ファイル：
 
 ```text
-10_design_review.md
+SESSION_DIR/outputs/10_design_review.md
 ```
 
 出力形式：
@@ -1453,6 +1679,8 @@ CTA：
 2.
 3.
 
+README.md の進行状況も更新してください。
+
 ---
 
 ## ステップ8：「提出文と振り返りを作る」
@@ -1465,8 +1693,8 @@ CTA：
 出力ファイル：
 
 ```text
-11_submission_message.md
-12_learning_log.md
+SESSION_DIR/outputs/11_submission_message.md
+SESSION_DIR/outputs/12_learning_log.md
 ```
 
 出力形式：
@@ -1504,6 +1732,8 @@ CTA：
 
 ## 次回改善したいこと
 
+README.md の進行状況も更新してください。
+
 ---
 
 # 「次へ」の扱い
@@ -1539,20 +1769,26 @@ CTA：
 
 必要に応じて、以下のファイルを作成または更新してください。
 
+ただし、すべての出力ファイルは、必ず案件ごとの作業フォルダ配下に作成してください。
+
 ```text
-01_input_summary.md
-02_step1_facts.md
-03_step2_customer_goal.md
-04_step3_target_psychology.md
-05_step3_5_persona_dialogue_draft_selection.md
-06_step4_appeal_axis.md
-07_step5_design_translation.md
-08_canva_design_spec.md
-09_gpt_canva_prompt.md
-10_design_review.md
-11_submission_message.md
-12_learning_log.md
+SESSION_DIR/outputs/01_input_summary.md
+SESSION_DIR/outputs/02_step1_facts.md
+SESSION_DIR/outputs/03_step2_customer_goal.md
+SESSION_DIR/outputs/04_step3_target_psychology.md
+SESSION_DIR/outputs/05_step3_5_persona_dialogue_draft_selection.md
+SESSION_DIR/outputs/06_step4_appeal_axis.md
+SESSION_DIR/outputs/07_step5_design_translation.md
+SESSION_DIR/outputs/08_canva_design_spec.md
+SESSION_DIR/outputs/09_gpt_canva_prompt.md
+SESSION_DIR/outputs/10_design_review.md
+SESSION_DIR/outputs/11_submission_message.md
+SESSION_DIR/outputs/12_learning_log.md
 ```
+
+新しい案件を開始するたびに、新しい `sessions/YYYYMMDD_HHMM_案件名/` フォルダを作成してください。
+
+別案件のファイルを上書きしてはいけません。
 
 ---
 
@@ -1569,3 +1805,4 @@ CTA：
 7. Canva上で実際に作れる形に翻訳できているか
 8. 優先度1と優先度2の2案を出せているか
 9. 判断に迷った場合、コンセプトとAIペルソナのニーズで判断できているか
+10. 新しい案件を既存フォルダに上書きしていないか
